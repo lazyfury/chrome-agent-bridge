@@ -85,6 +85,8 @@ async function handle(msg) {
     case 'navigate': return navigate(params.tabId, params.url);
     case 'refresh': return refresh(params.tabId);
     case 'eval': return evalInTab(params.tabId, params.expression, params);
+    case 'insertText': return insertText(params.tabId, params.text);
+    case 'dispatchKeyEvent': return dispatchKeyEvent(params.tabId, params);
     case 'getText': return evalInTab(params.tabId, TEXT_EXPR, {});
     case 'getHTML': return evalInTab(params.tabId, 'document.documentElement.outerHTML', {});
     case 'getTitle': return evalInTab(params.tabId, 'document.title', {});
@@ -150,6 +152,27 @@ async function evalInTab(tabId, expression, { awaitPromise = false, world = 'ISO
     throw new Error('JS error: ' + (d.exception && d.exception.description || d.text));
   }
   return res.result && res.result.value;
+}
+
+async function insertText(tabId, text) {
+  if (!tabId) throw new Error('tabId required');
+  if (typeof text !== 'string') throw new Error('text required');
+  await attachDebug(tabId);
+  await chrome.debugger.sendCommand({ tabId }, 'Input.insertText', { text });
+  return true;
+}
+
+async function dispatchKeyEvent(tabId, { type, key, code, text, windowsVirtualKeyCode, modifiers = 0 } = {}) {
+  if (!tabId) throw new Error('tabId required');
+  if (!type) throw new Error('type required');
+  await attachDebug(tabId);
+  const params = { type, modifiers };
+  if (key !== undefined) params.key = key;
+  if (code !== undefined) params.code = code;
+  if (text !== undefined) params.text = text;
+  if (windowsVirtualKeyCode !== undefined) params.windowsVirtualKeyCode = windowsVirtualKeyCode;
+  await chrome.debugger.sendCommand({ tabId }, 'Input.dispatchKeyEvent', params);
+  return true;
 }
 
 async function waitFor(tabId, selector, timeout) {
