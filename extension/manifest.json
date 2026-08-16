@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Agent Bridge",
+  "version": "0.1.0",
+  "description": "本地 Agent 桥:连接 localhost WebSocket 服务端,允许外部 Agent 操作浏览器(tab/执行JS/抓取/截图/cookie)。默认仅监听 127.0.0.1。",
+  "permissions": ["scripting", "tabs", "activeTab", "cookies", "alarms", "storage", "debugger"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Agent Bridge",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "128": "icon128.png"
+  }
+}

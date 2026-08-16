@@ -1,0 +1,9 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# 本地状态
+*.log

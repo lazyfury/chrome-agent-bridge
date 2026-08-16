@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  body { width: 260px; font: 13px/1.5 -apple-system, "PingFang SC", sans-serif; padding: 12px; }
+  h1 { font-size: 14px; margin: 0 0 8px; }
+  .row { display: flex; align-items: center; gap: 6px; margin: 6px 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; }
+  .dot.on { background: #2e7d32; }
+  input { flex: 1; padding: 4px 6px; border: 1px solid #ccc; border-radius: 4px; }
+  button { padding: 4px 10px; border: 1px solid #aaa; border-radius: 4px; background: #f5f5f5; cursor: pointer; }
+  .hint { color: #888; font-size: 11px; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>Agent Bridge</h1>
+  <div class="row"><span class="dot" id="dot"></span><span id="status">未连接</span></div>
+  <div class="row">
+    <input id="url" placeholder="ws://127.0.0.1:9333">
+    <button id="save">保存</button>
+  </div>
+  <div class="hint">扩展仅连接本机地址。命令由本地 Agent 下发,请勿将端口暴露到公网。</div>
+  <script src="popup.js"></script>
+</body>
+</html>
